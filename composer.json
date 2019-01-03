@@ -1,0 +1,41 @@
+{
+    "name": "cytodev/bitbucket-webhooks",
+    "description": "a modular, simple, and light-weight library that implements Bitbucket's web hooks.",
+    "keywords": [
+        "library",
+        "bitbucket",
+        "webhooks",
+        "web hook",
+        "light-weight",
+        "modular"
+    ],
+    "license": "MIT",
+    "type": "library",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Roel Walraven",
+            "email": "mail@cytodev.io"
+        }
+    ],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "require": {
+        "php": "^7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "cytodev\\": "src/"
+        }
+    },
+    "require-dev": {
+        "ext-uopz": "*",
+        "ext-soap": "*",
+        "phpunit/phpunit": "^7",
+        "phpunit/php-invoker": "^2.0"
+    }
+}
