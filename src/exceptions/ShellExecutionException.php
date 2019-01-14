@@ -43,4 +43,34 @@
             parent::__construct(sprintf("Shell command '%s' failed with exit code %d", $command, $exitCode), $code, $previous);
         }
 
+        /**
+         * <h2>getShellCommand</h2>
+         *   Getter method for $this->shellCommand
+         *
+         * @return string
+         */
+        public function getShellCommand(): string {
+            return $this->shellCommand;
+        }
+
+        /**
+         * <h2>getExitCode</h2>
+         *   Getter method for $this->exitCode
+         *
+         * @return int
+         */
+        public function getExitCode(): int {
+            return $this->exitCode;
+        }
+
+        /**
+         * <h2>getShellTrace</h2>
+         *   Getter method for $this->shellTrace
+         *
+         * @return string
+         */
+        public function getShellTrace(): string {
+            return $this->shellTrace;
+        }
+
     }
