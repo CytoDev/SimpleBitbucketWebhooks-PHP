@@ -2,7 +2,7 @@
 
     namespace cytodev\integration\bitbucket\webhooks;
 
-    use \Exception;
+    use \LogicException;
 
     use cytodev\integration\bitbucket\webhooks\exceptions\ShellExecutionException;
 
@@ -11,17 +11,12 @@
      *
      * @package cytodev\integration\bitbucket\webhooks
      */
-    class BasicDeployment {
+    class BasicShellWebHook {
 
         /**
          * @var string
          */
-        private $deployPath;
-
-        /**
-         * @var string
-         */
-        private $gitBinPath;
+        private $workingPath;
 
         /**
          * @var string
@@ -30,136 +25,129 @@
 
         /**
          * <h2>BasicDeployment constructor.</h2>
-         *
-         * @param string $gitBinPath  Absolute path to the git binary [Defaults: "/usr/bin/git"]
          */
-        public function __construct(string $gitBinPath = "/usr/bin/git") {
-            $this->gitBinPath   = $gitBinPath;
+        public function __construct() {
             $this->originalPath = getcwd();
         }
 
         /**
-         * <h2>setDeployPath</h2>
-         *   Sets the deployment path
+         * <h2>createWorkingPath</h2>
+         *   Attempts to create a working path
          *
-         * @param string $deployPath Path to deploy to
+         * @param string $workingPath Working directory path to create
+         * @param int    $permissions Working directory permissions to set [Defaults: 02775]
          *
-         * @return void
+         * @return bool
          */
-        public function setDeployPath(string $deployPath) {
-            $this->deployPath = $deployPath;
+        public function createWorkingPath(string $workingPath, int $permissions = 02775): bool {
+            return is_dir($workingPath) || mkdir($workingPath, $permissions);
         }
 
         /**
-         * <h2>deploy</h2>
-         *   Performs a very basic deployment
+         * <h2>setWorkingPath</h2>
+         *   Setter method for $this->workingPath
          *
-         * <b>$postDeployCallback parameters</b>
-         * <code>
-         *  $output       array  git command(s) output
-         *  $currentPath  string current working directory
-         *  $originalPath string original working directory
-         * </code>
+         * @param string $workingPath Path to define as working directory
          *
-         * @param array    $gitCommands        Git commands to execute for deployment
-         * @param callable $postDeployCallback Callback to execute on successful deployment [Defaults: null]
-         *
-         * @throws Exception               When the deployment directory could not be created
-         * @throws ShellExecutionException When a git shell command exits with a non-successful exit code
+         * @throws LogicException When the $deployPath can not be resolved to a real path
          *
          * @return void
          */
-        public function deploy(array $gitCommands = [], callable $postDeployCallback = null): void {
-            if (!is_dir($this->deployPath) && !mkdir($this->deployPath, 2775, true))
-                throw new Exception("Unable to create {$this->deployPath}");
+        public function setWorkingPath(string $workingPath): void {
+            $realWorkingPath = realpath($workingPath);
 
-            $this->executeGitCommands($gitCommands, $output);
+            if($realWorkingPath=== false)
+                throw new LogicException(sprintf("'%s' could not be resolved to a real path", $workingPath));
 
-            if(is_callable($postDeployCallback))
-                $postDeployCallback($output, getcwd(), $this->originalPath);
+            $this->workingPath = $realWorkingPath;
         }
 
         /**
-         * <h2>deploy</h2>
-         *   Performs a very basic deployment
+         * <h2>shellCommandsCallback</h2>
+         *   Executes multiple shell commands in $this->deployPath, restores the working directory back to
+         *   $this->originalPath when the commands exit with a successful exit code (0), and calls $callback with the
+         *   output of the executed commands
          *
-         * <b>$postUpdateCallback parameters</b>
-         * <code>
-         *  $output       array  git command(s) output
-         *  $currentPath  string current working directory
-         *  $originalPath string original working directory
-         * </code>
-         *
-         * @param array    $gitCommands        Git commands to execute for deployment
-         * @param callable $postUpdateCallback Callback to execute on successful deployment [Defaults: null]
-         *
-         * @throws Exception               When the deployment directory could not be found
-         * @throws ShellExecutionException When a git shell command exits with a non-successful exit code
+         * @param array    $commands Commands to execute [Defaults: empty]
+         * @param callable $callback Callback to perform after execution of shell commands [Defaults: null]
          *
          * @return void
          */
-        public function update(array $gitCommands = [], callable $postUpdateCallback = null): void {
-            if (!is_dir($this->deployPath))
-                throw new Exception("{$this->deployPath} does not exist");
-
-            $this->executeGitCommands($gitCommands, $output);
-
-            if(is_callable($postUpdateCallback))
-                $postUpdateCallback($output, getcwd(), $this->originalPath);
-        }
-
-        /**
-         * <h2>deploy</h2>
-         *   Performs a very basic deployment
-         *
-         * <b>$postCleanCallback parameters</b>
-         * <code>
-         *  $output       array  git command(s) output
-         *  $currentPath  string current working directory
-         *  $originalPath string original working directory
-         * </code>
-         *
-         * @param callable $postCleanCallback Callback to execute on successful deployment [Defaults: null]
-         *
-         * @throws Exception               When the deployment directory could not be created
-         * @throws ShellExecutionException When a git shell command exits with a non-successful exit code
-         *
-         * @return void
-         */
-        public function clean(callable $postCleanCallback = null): void {
+        public function shellCommandsCallback(array $commands = [], callable $callback = null): void {
             $output = [];
 
-            if (is_dir($this->deployPath)) {
-                exec("rm -rf {$this->deployPath}", $output, $returnStatus);
-
-                if($returnStatus !== 0)
-                    throw new ShellExecutionException("rm -rf {$this->deployPath}", $returnStatus, $output);
+            try {
+                $this->shellCommands($commands, $output);
+            } catch(ShellExecutionException $exception) {
+                array_push($output, sprintf("'%s' terminated with exit code %d", $exception->getShellCommand(), $exception->getExitCode()));
+            } finally {
+                if(is_callable($callback))
+                    $callback($output);
             }
-
-            if(is_callable($postCleanCallback))
-                $postCleanCallback($output, getcwd(), $this->originalPath);
         }
 
         /**
-         * <h2>executeGitCommands</h2>
-         *   Executes shell commands in $this->deployPath
+         * <h2>shellCommandsCallback</h2>
+         *   Executes a shell command in $this->deployPath, restores the working directory back to $this->originalPath
+         *   when the command exits with a successful exit code (0), and calls $callback with the output of the executed
+         *   command
          *
-         * @param array $gitCommands Git commands to execute for deployment [Defaults: empty]
-         * @param array &$output     Output array by reference [Defaults: empty]
-         *
-         * @throws ShellExecutionException When a git shell command exits with a non-successful exit code
+         * @param string   $command  Command to execute [Defaults: ""]
+         * @param callable $callback Callback to perform after execution of shell commands [Defaults: null]
          *
          * @return void
          */
-        private function executeGitCommands(array $gitCommands = [], &$output = []): void {
-            chdir($this->deployPath);
+        public function shellCommandCallback(string $command = "", callable $callback = null): void {
+            $output = [];
 
-            foreach($gitCommands as $gitCommand) {
-                exec($gitCommand, $output, $returnStatus);
-
-                if($returnStatus !== 0)
-                    throw new ShellExecutionException($gitCommand, $returnStatus, $output);
+            try {
+                $this->shellCommand($command, $output);
+            } catch(ShellExecutionException $exception) {
+                array_push($output, sprintf("'%s' terminated with exit code %d", $exception->getShellCommand(), $exception->getExitCode()));
+            } finally {
+                if(is_callable($callback))
+                    $callback($output);
             }
+        }
+
+        /**
+         * <h2>shellCommands</h2>
+         *   Executes multiple shell commands in $this->deployPath and restores the working directory back to
+         *   $this->originalPath when the commands exit with a successful exit code (0)
+         *
+         * @param array $commands Commands to execute [Defaults: empty]
+         * @param array &$output  Output array by reference [Defaults: empty]
+         *
+         * @throws ShellExecutionException When a shell command exits with a non-zero exit code
+         *
+         * @return void
+         */
+        public function shellCommands(array $commands = [], array &$output = []): void {
+            foreach($commands as $command)
+                $this->shellCommand($command, $output);
+        }
+
+        /**
+         * <h2>shellCommand</h2>
+         *   Executes a shell command in $this->deployPath and restores the working directory back to
+         *   $this->originalPath when the command exits with a successful exit code (0)
+         *
+         * @param string $command Command to execute [Defaults: ""]
+         * @param array  &$output Output array by reference [Defaults: empty]
+         *
+         * @throws ShellExecutionException When a shell command exits with a non-zero exit code
+         *
+         * @return void
+         */
+        public function shellCommand(string $command = "", array &$output = []): void {
+            chdir($this->workingPath);
+
+            exec($command, $output, $returnStatus);
+
+            if($returnStatus !== 0)
+                throw new ShellExecutionException($command, $returnStatus, $output);
+
+            chdir($this->originalPath);
         }
 
     }
