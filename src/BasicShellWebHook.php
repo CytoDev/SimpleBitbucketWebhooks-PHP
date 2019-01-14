@@ -7,7 +7,7 @@
     use cytodev\integration\bitbucket\webhooks\exceptions\ShellExecutionException;
 
     /**
-     * <h1>Class BasicDeployment</h1>
+     * <h1>Class BasicShellWebHook</h1>
      *
      * @package cytodev\integration\bitbucket\webhooks
      */
@@ -24,7 +24,7 @@
         private $originalPath;
 
         /**
-         * <h2>BasicDeployment constructor.</h2>
+         * <h2>BasicShellWebHook constructor.</h2>
          */
         public function __construct() {
             $this->originalPath = getcwd();
