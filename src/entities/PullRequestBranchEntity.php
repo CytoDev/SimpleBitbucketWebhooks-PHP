@@ -22,17 +22,17 @@
         /**
          * @var string
          */
-        private $branch;
+        protected $branch;
 
         /**
          * @var string
          */
-        private $commit;
+        protected $commit;
 
         /**
          * @var RepositoryEntity
          */
-        private $repository;
+        protected $repository;
 
         /**
          * <h2>PullRequestBranchEntity constructor.</h2>

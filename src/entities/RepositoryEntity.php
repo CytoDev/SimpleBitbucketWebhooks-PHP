@@ -29,52 +29,52 @@
         /**
          * @var string
          */
-        private $type;
+        protected $type;
 
         /**
          * @var string
          */
-        private $name;
+        protected $name;
 
         /**
          * @var string
          */
-        private $fullName;
+        protected $fullName;
 
         /**
          * @var string
          */
-        private $uuid;
+        protected $uuid;
 
         /**
          * @var LinksEntity
          */
-        private $links;
+        protected $links;
 
         /**
          * @var ProjectEntity|null
          */
-        private $project = null;
+        protected $project = null;
 
         /**
          * @var string
          */
-        private $website;
+        protected $website;
 
         /**
          * @var OwnerEntity
          */
-        private $owner;
+        protected $owner;
 
         /**
          * @var string
          */
-        private $scm;
+        protected $scm;
 
         /**
          * @var bool
          */
-        private $isPrivate;
+        protected $isPrivate;
 
         /**
          * <h2>RepositoryEntity constructor.</h2>

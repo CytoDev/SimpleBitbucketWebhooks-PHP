@@ -22,17 +22,17 @@
         /**
          * @var string|null
          */
-        private $self;
+        protected $self;
 
         /**
          * @var string
          */
-        private $html;
+        protected $html;
 
         /**
          * @var string|null
          */
-        private $avatar;
+        protected $avatar;
 
         /**
          * <h2>LinksEntity constructor.</h2>

@@ -27,27 +27,27 @@
         /**
          * @var int
          */
-        private $type;
+        protected $type;
 
         /**
          * @var string
          */
-        private $nickname;
+        protected $nickname;
 
         /**
          * @var string
          */
-        private $displayName;
+        protected $displayName;
 
         /**
          * @var string
          */
-        private $uuid;
+        protected $uuid;
 
         /**
          * @var LinksEntity
          */
-        private $links;
+        protected $links;
 
         /**
          * <h2>OwnerEntity constructor.</h2>

@@ -24,27 +24,27 @@
         /**
          * @var string
          */
-        private $type;
+        protected $type;
 
         /**
          * @var string
          */
-        private $name;
+        protected $name;
 
         /**
          * @var string
          */
-        private $uuid;
+        protected $uuid;
 
         /**
          * @var LinksEntity
          */
-        private $links;
+        protected $links;
 
         /**
          * @var string
          */
-        private $key;
+        protected $key;
 
         /**
          * <h2>ProjectEntity constructor.</h2>

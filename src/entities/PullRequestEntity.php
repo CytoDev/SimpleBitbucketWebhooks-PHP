@@ -39,82 +39,82 @@
         /**
          * @var int
          */
-        private $id;
+        protected $id;
 
         /**
          * @var string
          */
-        private $title;
+        protected $title;
 
         /**
          * @var string
          */
-        private $description;
+        protected $description;
 
         /**
          * @var int
          */
-        private $state;
+        protected $state;
 
         /**
          * @var string
          */
-        private $author;
+        protected $author;
 
         /**
          * @var PullRequestBranchEntity
          */
-        private $source;
+        protected $source;
 
         /**
          * @var PullRequestBranchEntity
          */
-        private $destination;
+        protected $destination;
 
         /**
          * @var string|null
          */
-        private $mergeCommit = null;
+        protected $mergeCommit = null;
 
         /**
          * @var array
          */
-        private $participants;
+        protected $participants;
 
         /**
          * @var array
          */
-        private $reviewers;
+        protected $reviewers;
 
         /**
          * @var bool
          */
-        private $closeSourceBranch;
+        protected $closeSourceBranch;
 
         /**
          * @var string|null
          */
-        private $closedBy = null;
+        protected $closedBy = null;
 
         /**
          * @var string|null
          */
-        private $declineReason = null;
+        protected $declineReason = null;
 
         /**
          * @var int
          */
-        private $created;
+        protected $created;
 
         /**
          * @var int
          */
-        private $updated;
+        protected $updated;
 
         /**
          * @var LinksEntity
          */
-        private $links;
+        protected $links;
 
         /**
          * <h2>PullRequestEntity constructor.</h2>
