@@ -18,7 +18,7 @@
             <file>./src/entities/PullRequestEntityTest.php</file>
             <file>./src/entities/RepositoryEntityTest.php</file>
 
-            <file>./src/BasicDeploymentTest.php</file>
+            <file>./src/BasicShellWebHookTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
