@@ -80,6 +80,20 @@
         }
 
         /**
+         * <h2>Magic __callStatic</h2>
+         *
+         * @param string $name      Name of the method being called
+         * @param array  $arguments Array containing the parameters passed
+         *
+         * @throws IllegalMethodException Always
+         *
+         * @return void
+         */
+        final public static function __callStatic(string $name, array $arguments) {
+            throw new IllegalMethodException($name, self::class . " does not allow static calls");
+        }
+
+        /**
          * <h2>Magic __get</h2>
          *   Gets inaccessible properties inside a child class
          *
