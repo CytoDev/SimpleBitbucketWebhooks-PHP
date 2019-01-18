@@ -60,7 +60,9 @@
 
                     return $this->__get($property);
                 case "set";
-                    return $this->__set($property, $arguments[0]);
+                    $this->__set($property, $arguments[0]);
+
+                    return $this->__get($property) === $arguments[0];
                 default:
                     if(!method_exists($this, $name))
                         throw new BadMethodCallException("Method \"{$name}\" not found in \"" . get_class($this) . "\"");
