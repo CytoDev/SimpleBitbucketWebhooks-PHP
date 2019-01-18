@@ -39,7 +39,15 @@
 
         /**
          * <h2>__call</h2>
-         *   Wrapper method to allow getProperty() and setProperty() syntax in child classes
+         *   Wrapper method to allow getProperty() and setProperty() syntax in child classes as well as regular method
+         *   calls that are inaccessible
+         *
+         * <b>Return values</b>
+         * <code>
+         *   mixed When __get is called                         returns $this->$property
+         *   bool  When __set is called                         returns $this->$property === $arguments[0]
+         *   mixed When any other method is called (and exists) returns $this->$name(...$arguments)
+         * </code>
          *
          * @param string $name      Method name
          * @param array  $arguments Arguments to call the method with
@@ -73,7 +81,7 @@
 
         /**
          * <h2>Magic __get</h2>
-         *   Gets hidden properties inside a child class
+         *   Gets inaccessible properties inside a child class
          *
          * @param string Variable name
          *
@@ -85,7 +93,7 @@
 
         /**
          * <h2>Magic __set</h2>
-         *   Sets properties inside a child class
+         *   Sets inaccessible properties inside a child class
          *
          * @param string $name  Variable name
          * @param mixed  $value Variable value
