@@ -57,22 +57,22 @@
         protected $project = null;
 
         /**
-         * @var string
+         * @var string|null
          */
         protected $website;
 
         /**
-         * @var OwnerEntity
+         * @var OwnerEntity|null
          */
         protected $owner;
 
         /**
-         * @var string
+         * @var string|null
          */
         protected $scm;
 
         /**
-         * @var bool
+         * @var bool|null
          */
         protected $isPrivate;
 
