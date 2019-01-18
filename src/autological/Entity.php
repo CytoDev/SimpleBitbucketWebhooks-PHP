@@ -120,4 +120,38 @@
             throw new IllegalMethodException(sprintf("set%s", ucfirst($name)));
         }
 
+        /**
+         * <h2>__isset</h2>
+         *   Calls isset and empty on inaccessible properties inside a child class
+         *
+         * @param string $name The property name
+         *
+         * @throws BadMethodCallException When the property does not exist
+         *
+         * @return bool
+         */
+        final public function __isset(string $name): bool {
+            if(!property_exists($this, $name))
+                throw new BadMethodCallException("Property \"{$name}\" not found in \"" . get_class($this) . "\"");
+
+            return isset($this->$name) || empty($this->$name);
+        }
+
+        /**
+         * <h2>__isset</h2>
+         *   Calls unset on inaccessible properties inside a child class
+         *
+         * @param string $name The property name
+         *
+         * @throws BadMethodCallException When the property does not exist
+         *
+         * @return void
+         */
+        final public function __unset(string $name): void {
+            if(!property_exists($this, $name))
+                throw new BadMethodCallException("Property \"{$name}\" not found in \"" . get_class($this) . "\"");
+
+            unset($this->$name);
+        }
+
     }
