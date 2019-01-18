@@ -65,7 +65,7 @@
                     if(!method_exists($this, $name))
                         throw new BadMethodCallException("Method \"{$name}\" not found in \"" . get_class($this) . "\"");
 
-                    return $this->$name($arguments);
+                    return $this->$name(...$arguments);
             }
         }
 
