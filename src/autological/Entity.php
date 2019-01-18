@@ -32,8 +32,24 @@
             $properties = $reflection->getProperties(ReflectionProperty::IS_PROTECTED);
 
             foreach($properties as $property) {
-                if(!$property->isDefault() && $this->$property === null)
-                    throw new LogicException(sprintf("%s::{$property} was not defined during construction, did the Bitbucket WebHook API change?", get_class($this)));
+                $nullable = false;
+                $regEx    = "/^\s*\*\s*@var\s*(.*)$/m";
+
+                $propertyVars = array_map(function($value) use ($regEx) {
+                    return preg_replace($regEx, "$1", $value);
+                }, array_filter(explode("\n", $property->getDocComment()), function($value) use ($regEx) {
+                    return preg_match($regEx, $value);
+                }));
+
+                sort($propertyVars);
+
+                foreach(explode("|", $propertyVars[0]) as $possibleType) {
+                    if(strtolower($possibleType) === "null")
+                        $nullable = true;
+                }
+
+                if(!$nullable && $this->__get($property->getName()) === null)
+                    throw new LogicException(sprintf("%s::{$property->getName()} was not defined during construction, did the Bitbucket WebHook API change?", get_class($this)));
             }
         }
 
