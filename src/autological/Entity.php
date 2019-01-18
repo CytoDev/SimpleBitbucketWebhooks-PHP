@@ -29,7 +29,7 @@
         protected function validateConstruction() {
             $reflection = new ReflectionClass($this);
 
-            $properties = $reflection->getProperties(ReflectionProperty::IS_PRIVATE);
+            $properties = $reflection->getProperties(ReflectionProperty::IS_PROTECTED);
 
             foreach($properties as $property) {
                 if(!$property->isDefault() && $this->$property === null)
