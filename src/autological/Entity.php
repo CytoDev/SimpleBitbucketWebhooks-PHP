@@ -2,6 +2,7 @@
 
     namespace cytodev\integration\bitbucket\webhooks\autological;
 
+    use \BadMethodCallException;
     use \ReflectionClass;
     use \ReflectionProperty;
     use \ReflectionException;
