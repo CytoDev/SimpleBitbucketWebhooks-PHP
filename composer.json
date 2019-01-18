@@ -34,8 +34,8 @@
         }
     },
     "require-dev": {
-        "ext-uopz": "*",
         "ext-soap": "*",
+        "ext-uopz": "*",
         "phpunit/phpunit": "^7",
         "phpunit/php-invoker": "^2.0"
     }
