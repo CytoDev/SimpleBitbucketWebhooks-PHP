@@ -131,21 +131,21 @@
 
             $this->id = isset($payload["id"]) ? filter_var($payload["id"], FILTER_VALIDATE_INT) : null;
 
-            $this->title         = isset($payload["title"])         ? $payload["title"]         : null;
-            $this->description   = isset($payload["description"])   ? $payload["description"]   : null;
-            $this->author        = isset($payload["author"])        ? $payload["author"]        : null;
-            $this->closedBy      = isset($payload["closedBy"])      ? $payload["closedBy"]      : null;
-            $this->declineReason = isset($payload["declineReason"]) ? $payload["declineReason"] : null;
+            $this->title         = isset($payload["title"])          ? $payload["title"]          : null;
+            $this->description   = isset($payload["description"])    ? $payload["description"]    : null;
+            $this->author        = isset($payload["author"])         ? $payload["author"]         : null;
+            $this->closedBy      = isset($payload["closed_by"])      ? $payload["closed_by"]      : null;
+            $this->declineReason = isset($payload["decline_reason"]) ? $payload["decline_reason"] : null;
 
-            $this->closeSourceBranch = isset($payload["closeSourceBranch"]) ? filter_var($payload["closeSourceBranch"], FILTER_VALIDATE_BOOLEAN) : null;
+            $this->closeSourceBranch = isset($payload["close_source_branch"]) ? filter_var($payload["close_source_branch"], FILTER_VALIDATE_BOOLEAN) : null;
 
             $this->reviewers    = isset($payload["reviewers"])    && is_array($payload["reviewers"])    ? $payload["reviewers"]    : [];
             $this->participants = isset($payload["participants"]) && is_array($payload["participants"]) ? $payload["participants"] : [];
 
-            $this->mergeCommit  = isset($payload["mergeCommit"]) && isset($payload["mergeCommit"]["hash"]) ? $payload["mergeCommit"]["hash"] : null;
+            $this->mergeCommit  = isset($payload["merge_commit"]) && isset($payload["merge_commit"]["hash"]) ? $payload["merge_commit"]["hash"] : null;
 
-            $this->created = isset($payload["created"]) ? strtotime($payload["created"]) : null;
-            $this->updated = isset($payload["updated"]) ? strtotime($payload["updated"]) : null;
+            $this->created = isset($payload["created_on"]) ? strtotime($payload["created_on"]) : null;
+            $this->updated = isset($payload["created_on"]) ? strtotime($payload["created_on"]) : null;
 
             if(isset($payload["state"])) {
                 switch($payload["state"]) {
