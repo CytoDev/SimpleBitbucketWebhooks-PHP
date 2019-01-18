@@ -15,7 +15,27 @@
 
     use cytodev\integration\bitbucket\webhooks\entities\PullRequestEntity;
 
+    /**
+     * <h1>Class PullRequestEntityTest</h1>
+     *
+     * @package cytodev\integration\bitbucket\webhooks
+     */
     final class PullRequestEntityTest extends TestCase {
+
+        /**
+         * @var array
+         */
+        private $webHookData;
+
+        /**
+         * <h2>setUp</h2>
+         *   Build the default test cases' data
+         *
+         * @return void
+         */
+        public function setUp() {
+            $this->webHookData = json_decode(file_get_contents(sprintf("%s/../../resources/pullRequest.json", dirname(__FILE__))), true);
+        }
 
         /**
          * <h2>testCannotInstantiateWithoutData</h2>
@@ -32,6 +52,24 @@
         }
 
         /**
+         * <h2>testCannotInstantiateWithIncompleteData</h2>
+         *
+         * @throws LogicException
+         * @throws ReflectionException
+         *
+         * @return void
+         */
+        public function testCannotInstantiateWithIncompleteData() {
+            $pullRequest = $this->webHookData["pullrequest"];
+
+            unset($pullRequest["source"]);
+
+            $this->expectException(LogicException::class);
+
+            new PullRequestEntity($pullRequest);
+        }
+
+        /**
          * <h2>testCanInstantiateWithData</h2>
          *
          * @throws LogicException
@@ -42,11 +80,11 @@
          * @return void
          */
         public function testCanInstantiateWithData() {
-            $data = json_decode(file_get_contents("resources/pullRequest.json"), true);
+            $pullRequest = $this->webHookData["pullrequest"];
 
-            $pullRequest = new PullRequestEntity($data["pullrequest"]);
+            $entity = new PullRequestEntity($pullRequest);
 
-            $this->assertInstanceOf(PullRequestEntity::class, $pullRequest);
+            $this->assertInstanceOf(PullRequestEntity::class, $entity);
         }
 
     }
