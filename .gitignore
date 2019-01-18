@@ -31,4 +31,6 @@ vendor/
 atlassian-ide-plugin.xml
 modules.xml
 
+*/**/.tmp/*
+
 !/**/.gitkeep
