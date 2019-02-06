@@ -25,7 +25,8 @@
         "optimize-autoloader": true
     },
     "require": {
-        "php": "^7.2"
+        "php": "^7.2",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
@@ -33,8 +34,8 @@
         }
     },
     "require-dev": {
-        "ext-uopz": "*",
         "ext-soap": "*",
+        "ext-uopz": "*",
         "phpunit/phpunit": "^7",
         "phpunit/php-invoker": "^2.0"
     }

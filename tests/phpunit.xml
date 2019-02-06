@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit verbose="true">
+    <testsuites>
+        <testsuite name="entities">
+            <file>./src/entities/LinksEntityTest.php</file>
+            <file>./src/entities/OwnerEntityTest.php</file>
+            <file>./src/entities/ProjectEntityTest.php</file>
+            <file>./src/entities/PullRequestBranchEntityTest.php</file>
+            <file>./src/entities/PullRequestEntityTest.php</file>
+            <file>./src/entities/RepositoryEntityTest.php</file>
+        </testsuite>
+
+        <testsuite name="all">
+            <file>./src/entities/LinksEntityTest.php</file>
+            <file>./src/entities/OwnerEntityTest.php</file>
+            <file>./src/entities/ProjectEntityTest.php</file>
+            <file>./src/entities/PullRequestBranchEntityTest.php</file>
+            <file>./src/entities/PullRequestEntityTest.php</file>
+            <file>./src/entities/RepositoryEntityTest.php</file>
+
+            <file>./src/BasicShellWebHookTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
