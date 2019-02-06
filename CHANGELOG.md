@@ -14,3 +14,8 @@ Changes are documented in the following order:
  6. Security
 
 ## [Unreleased](https://github.com/CytoDev/SimpleBitbucketWebhooks-PHP/compare/master...dev)
+
+## [1.0.0] 2019-02-06
+ - Initial release
+
+[1.0.0]: https://github.com/CytoDev/SimpleBitbucketWebhooks-PHP/compare/e3caef...v1.0.0
