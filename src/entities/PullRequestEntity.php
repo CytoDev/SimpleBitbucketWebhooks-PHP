@@ -132,11 +132,10 @@
 
             $this->id = isset($payload["id"]) ? filter_var($payload["id"], FILTER_VALIDATE_INT) : null;
 
-            $this->title         = isset($payload["title"])          ? $payload["title"]          : null;
-            $this->description   = isset($payload["description"])    ? $payload["description"]    : null;
-            $this->author        = isset($payload["author"])         ? $payload["author"]         : null;
-            $this->closedBy      = isset($payload["closed_by"])      ? $payload["closed_by"]      : null;
-            $this->declineReason = isset($payload["decline_reason"]) ? $payload["decline_reason"] : null;
+            $this->title         = isset($payload["title"])         ? $payload["title"]         : null;
+            $this->description   = isset($payload["description"])   ? $payload["description"]   : null;
+            $this->closedBy      = isset($payload["closed_by"])     ? $payload["closed_by"]     : null;
+            $this->declineReason = isset($payload["reason"])        ? $payload["reason"]        : null;
 
             $this->closeSourceBranch = isset($payload["close_source_branch"]) ? filter_var($payload["close_source_branch"], FILTER_VALIDATE_BOOLEAN) : null;
 
