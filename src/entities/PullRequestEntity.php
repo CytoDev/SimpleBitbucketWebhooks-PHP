@@ -145,7 +145,7 @@
             $this->mergeCommit  = isset($payload["merge_commit"]) && isset($payload["merge_commit"]["hash"]) ? $payload["merge_commit"]["hash"] : null;
 
             $this->created = isset($payload["created_on"]) ? strtotime($payload["created_on"]) : null;
-            $this->updated = isset($payload["created_on"]) ? strtotime($payload["created_on"]) : null;
+            $this->updated = isset($payload["updated_on"]) ? strtotime($payload["updated_on"]) : null;
 
             if(isset($payload["state"])) {
                 switch($payload["state"]) {
