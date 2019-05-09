@@ -57,7 +57,7 @@
         protected $state;
 
         /**
-         * @var string
+         * @var ActorEntity
          */
         protected $author;
 
@@ -125,6 +125,7 @@
          * @throws LogicException      When a private field has no default and is not set by Bitbucket's payload
          */
         public function __construct(array $payload = []) {
+            $this->author       = isset($payload["author"])      && is_array($payload["author"])      ? new ActorEntity($payload["author"])                  : null;
             $this->source       = isset($payload["source"])      && is_array($payload["source"])      ? new PullRequestBranchEntity($payload["source"])      : null;
             $this->destination  = isset($payload["destination"]) && is_array($payload["destination"]) ? new PullRequestBranchEntity($payload["destination"]) : null;
             $this->links        = isset($payload["links"])       && is_array($payload["links"])       ? new LinksEntity($payload["links"])                   : null;

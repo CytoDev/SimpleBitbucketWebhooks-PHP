@@ -62,7 +62,7 @@
         protected $website;
 
         /**
-         * @var OwnerEntity|null
+         * @var ActorEntity|null
          */
         protected $owner;
 
@@ -87,7 +87,7 @@
         public function __construct(array $payload = []) {
             $this->links   = isset($payload["links"])   && is_array($payload["links"])   ? new LinksEntity($payload["links"])     : null;
             $this->project = isset($payload["project"]) && is_array($payload["project"]) ? new ProjectEntity($payload["project"]) : null;
-            $this->owner   = isset($payload["owner"])   && is_array($payload["owner"])   ? new OwnerEntity($payload["owner"])     : null;
+            $this->owner   = isset($payload["owner"])   && is_array($payload["owner"])   ? new ActorEntity($payload["owner"])     : null;
 
             $this->type     = isset($payload["type"])      ? $payload["type"]      : null;
             $this->name     = isset($payload["name"])      ? $payload["name"]      : null;
